@@ -83,4 +83,41 @@ with col2:
     fig.add_trace(go.Scatter3d(
         x=[x_val], y=[y_val], z=[z_point],
         mode='markers', marker=dict(size=8, color='red'),
-        name='
+        name='Point P'
+    ))
+
+    # 3. Plot the Gradient Arrow
+    # Scale arrow to make it visible but not overwhelming
+    scale = 0.5 
+    fig.add_trace(go.Cone(
+        x=[x_val], y=[y_val], z=[z_point],
+        u=[dz_dx], v=[dz_dy], w=[abs(dz_dx)+abs(dz_dy)], # Pointing slightly up for visibility
+        sizemode="absolute", sizeref=scale, anchor="tail",
+        colorscale=[[0, 'red'], [1, 'red']], showscale=False,
+        name='Gradient Direction'
+    ))
+
+    fig.update_layout(
+        title=f"3D View: {func_str}",
+        scene=dict(
+            xaxis_title='X Axis',
+            yaxis_title='Y Axis',
+            zaxis_title='Z Axis'
+        ),
+        margin=dict(l=0, r=0, b=0, t=40)
+    )
+
+    st.plotly_chart(fig, use_container_width=True)
+
+# --- Real World Application Section ---
+st.divider()
+st.subheader("Real World Application: Gradient Descent in AI")
+st.markdown("""
+The concept of the **Gradient** is not just theoretical calculus; it is the engine behind modern **Artificial Intelligence**.
+
+1.  **Machine Learning Training:** When training a neural network (like ChatGPT or Gemini), we define a "Loss Function" which represents the error of the model. This looks like a multi-dimensional valley.
+2.  **Optimization:** To minimize error, algorithms calculate the gradient to find the direction of steepest ascent.
+3.  **Gradient Descent:** The model then moves in the **opposite direction** (steepest descent) to reach the bottom of the valley (minimum error).
+
+*This application visualizes how calculating partial derivatives helps us find direction in complex multi-dimensional spaces.*
+""")
